@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getAllPosts } from '@/lib/mdx'
+import { getLatestVideos } from '@/lib/youtube'
 import PostCard from '@/components/PostCard'
 
 const PROFILE_IMG  = 'https://blog.kakaocdn.net/dna/bEhoGz/btsGxCdIhZS/AAAAAAAAAAAAAAAAAAAAAJzaZzTCGLpYkVWdoPZPjw1r7k5RgHojEko6RN8ABo8E/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1780239599&allow_ip=&allow_referer=&signature=%2FciwVPkNZBvJGKj7TFiKZtkFnHQ%3D'
@@ -65,6 +66,7 @@ const INSTITUTIONS = [
 export default async function Home() {
   const posts = await getAllPosts()
   const recentPosts = posts.slice(0, 3)
+  const videos = await getLatestVideos(3)
 
   return (
     <div className="space-y-20">
@@ -270,6 +272,56 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* 유튜브 최신 영상 */}
+      {videos.length > 0 && (
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-800">유튜브 강의</h2>
+            <a
+              href="https://www.youtube.com/channel/UC4rltdhd9DYMKL6dCB3RLgQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-green-deep hover:text-green-mid transition-colors"
+            >
+              채널 전체 보기 →
+            </a>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {videos.map(video => (
+              <a
+                key={video.id}
+                href={video.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block rounded-xl overflow-hidden border border-border hover:border-green-deep transition-colors"
+              >
+                <div className="relative aspect-video bg-gray-100">
+                  <Image
+                    src={video.thumbnail}
+                    alt={video.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                    <div className="w-12 h-12 rounded-full bg-red-600 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white ml-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-3 space-y-1">
+                  <p className="text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-green-deep transition-colors">
+                    {video.title}
+                  </p>
+                  <p className="text-xs text-gray-400">{video.published}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 최근 글 */}
       <section className="space-y-6">

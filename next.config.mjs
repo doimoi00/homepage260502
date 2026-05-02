@@ -5,6 +5,7 @@ const nextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: 'blog.kakaocdn.net' },
       { protocol: 'https', hostname: 't1.daumcdn.net' },
+      { protocol: 'https', hostname: 'i.ytimg.com' },
     ],
   },
 }
