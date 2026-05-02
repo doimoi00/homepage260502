@@ -133,6 +133,38 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 해커스 대표 강의 */}
+      <section className="space-y-4">
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-semibold text-gray-800">대표 강의</h2>
+          <span className="text-xs px-2 py-0.5 bg-red-50 text-red-600 border border-red-200 rounded-full font-medium">
+            국내 1위 교육 해커스
+          </span>
+        </div>
+        <a
+          href="https://campus.hackers.com/lecture/45200"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group block rounded-2xl border-2 border-border hover:border-green-deep transition-colors overflow-hidden"
+        >
+          <div className="flex items-center justify-between p-6">
+            <div className="space-y-1">
+              <p className="text-xs text-red-500 font-semibold tracking-wide uppercase">Hackers Campus · AI 비즈니스/기획</p>
+              <h3 className="text-lg font-bold text-gray-900 leading-snug group-hover:text-green-deep transition-colors">
+                활용을 넘어 혁신으로,<br />실무자 AI 역량 Next Level
+              </h3>
+              <p className="text-sm text-gray-500 pt-1">해커스캠퍼스 AI 대표 강사</p>
+            </div>
+            <div className="shrink-0 w-24 h-24 bg-gradient-to-br from-green-deep to-green-mid rounded-xl flex items-center justify-center ml-6">
+              <div className="text-center text-cream space-y-0.5">
+                <p className="text-2xl font-black">AI</p>
+                <p className="text-xs opacity-80">대표 강사</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </section>
+
       {/* 주요 이력 */}
       <section className="space-y-6">
         <h2 className="text-xl font-semibold text-gray-800">주요 이력</h2>
