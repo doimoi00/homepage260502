@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: var(--font-noto-serif-kr), 'Noto Serif KR', Georgia, serif;
+    background-color: #F9F8F6;
+    color: #1a1a1a;
+  }
+}
