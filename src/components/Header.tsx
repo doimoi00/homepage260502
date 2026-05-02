@@ -3,7 +3,7 @@ import Link from 'next/link'
 const NAV = [
   { href: '/', label: '홈' },
   { href: '/posts', label: '글' },
-  { href: 'mailto:doimoi@kakao.com', label: '문의' },
+  { href: '/contact', label: '문의' },
 ]
 
 export default function Header() {
