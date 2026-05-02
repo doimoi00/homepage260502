@@ -13,6 +13,8 @@
     "react": "^18",
     "react-dom": "^18",
     "@mdx-js/mdx": "^3.0.0",
+    "@supabase/supabase-js": "^2.0.0",
+    "@supabase/ssr": "^0.5.0",
     "gray-matter": "^4.0.3",
     "reading-time": "^1.5.0"
   },
