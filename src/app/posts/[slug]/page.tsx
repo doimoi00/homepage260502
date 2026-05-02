@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote/rsc'
+import { compile, run } from '@mdx-js/mdx'
+import * as runtime from 'react/jsx-runtime'
 import { getAllPosts, getPostBySlug } from '@/lib/mdx'
 
 interface Props {
@@ -24,12 +25,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params
+
   let post
   try {
     post = await getPostBySlug(slug)
   } catch {
     notFound()
   }
+
+  const compiled = await compile(post.content, { outputFormat: 'function-body' })
+  const { default: MDXContent } = await run(String(compiled), {
+    ...(runtime as object),
+    baseUrl: import.meta.url,
+  } as Parameters<typeof run>[1])
 
   return (
     <article className="space-y-8">
@@ -55,7 +63,7 @@ export default async function PostPage({ params }: Props) {
       </header>
 
       <div className="prose prose-stone max-w-none prose-a:text-green-deep hover:prose-a:text-green-mid">
-        <MDXRemote source={post.content} />
+        <MDXContent />
       </div>
     </article>
   )
