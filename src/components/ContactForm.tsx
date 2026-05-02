@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-const LECTURE_TYPES = ['특강 (2시간)', 'AI 프로그래밍 (10시간)', '기타']
+const LECTURE_TYPES = ['특강', 'AI 프로그래밍 (10시간)', '기타']
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>('idle')

@@ -83,12 +83,12 @@ export default async function Home() {
             최신 AI 기술을 누구나 이해할 수 있는 언어로 전달합니다.
           </p>
           <div className="flex gap-3 pt-2">
-            <a
-              href="mailto:doimoi@kakao.com"
+            <Link
+              href="/contact"
               className="px-4 py-2 bg-green-deep text-cream text-sm rounded hover:bg-green-mid transition-colors"
             >
               강의 문의
-            </a>
+            </Link>
             <Link
               href="/posts"
               className="px-4 py-2 border border-green-deep text-green-deep text-sm rounded hover:bg-green-light transition-colors"
@@ -300,6 +300,12 @@ export default async function Home() {
           <p>이메일 · <a href="mailto:doimoi@kakao.com" className="text-green-deep hover:underline">doimoi@kakao.com</a></p>
           <p>카카오톡 · <span className="text-green-deep">doimoi00</span> (도이모이 공공)</p>
         </div>
+        <Link
+          href="/contact"
+          className="inline-block mt-2 px-5 py-2.5 bg-green-deep text-cream text-sm rounded-lg hover:bg-green-mid transition-colors"
+        >
+          문의 폼 바로가기 →
+        </Link>
       </section>
 
     </div>
