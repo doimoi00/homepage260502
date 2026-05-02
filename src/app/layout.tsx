@@ -3,6 +3,7 @@ import { Noto_Serif_KR } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import FloatingKakao from '@/components/FloatingKakao'
 
 const notoSerifKR = Noto_Serif_KR({
   weight: ['400', '500', '700'],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <Footer />
+        <FloatingKakao />
       </body>
     </html>
   )
