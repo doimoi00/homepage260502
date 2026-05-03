@@ -21,7 +21,13 @@ export default function LoginPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      setError('이메일 또는 비밀번호가 올바르지 않습니다.')
+      if (error.message === 'Invalid login credentials') {
+        setError('이메일 또는 비밀번호가 올바르지 않습니다. 이메일 인증을 완료하지 않으셨다면 이메일함에서 인증 링크를 클릭해주세요.')
+      } else if (error.message === 'Email not confirmed') {
+        setError('이메일 인증이 필요합니다. 이메일함에서 인증 링크를 클릭해주세요.')
+      } else {
+        setError(error.message)
+      }
       setLoading(false)
     } else {
       router.push('/board')

@@ -10,16 +10,18 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError('')
+    setSuccess('')
     setLoading(true)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -31,10 +33,17 @@ export default function SignupPage() {
     if (error) {
       setError(error.message)
       setLoading(false)
-    } else {
+      return
+    }
+
+    if (data.session) {
       router.push('/board')
       router.refresh()
+      return
     }
+
+    setSuccess('가입이 완료되었습니다. 확인 이메일을 발송했습니다. 이메일을 확인하고 링크를 클릭해주세요.')
+    setLoading(false)
   }
 
   return (
@@ -59,11 +68,19 @@ export default function SignupPage() {
         </div>
 
         {error && <p className="text-sm text-red-500">{error}</p>}
+        {success && (
+          <div className="p-4 bg-green-light rounded-lg space-y-1">
+            <p className="text-sm font-semibold text-green-deep">이메일을 확인해주세요!</p>
+            <p className="text-sm text-gray-600">{email} 로 인증 링크를 발송했습니다. 이메일함에서 링크를 클릭하면 로그인할 수 있습니다.</p>
+          </div>
+        )}
 
-        <button type="submit" disabled={loading}
-          className="w-full py-3 bg-green-deep text-cream font-semibold rounded-lg hover:bg-green-mid transition-colors disabled:opacity-50">
-          {loading ? '가입 중...' : '회원가입'}
-        </button>
+        {!success && (
+          <button type="submit" disabled={loading}
+            className="w-full py-3 bg-green-deep text-cream font-semibold rounded-lg hover:bg-green-mid transition-colors disabled:opacity-50">
+            {loading ? '가입 중...' : '회원가입'}
+          </button>
+        )}
       </form>
 
       <p className="text-center text-sm text-gray-500">
