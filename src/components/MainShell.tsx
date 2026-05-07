@@ -1,11 +1,15 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Header from './Header'
-import Footer from './Footer'
-import FloatingKakao from './FloatingKakao'
 
-export default function MainShell({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode
+  header: React.ReactNode
+  footer: React.ReactNode
+  floating: React.ReactNode
+}
+
+export default function MainShell({ children, header, footer, floating }: Props) {
   const pathname = usePathname()
   const isAdmin = pathname.startsWith('/admin')
 
@@ -15,12 +19,12 @@ export default function MainShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Header />
+      {header}
       <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-12">
         {children}
       </main>
-      <Footer />
-      <FloatingKakao />
+      {footer}
+      {floating}
     </>
   )
 }

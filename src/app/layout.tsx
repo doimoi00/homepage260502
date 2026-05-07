@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Noto_Serif_KR } from 'next/font/google'
 import './globals.css'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import FloatingKakao from '@/components/FloatingKakao'
 import MainShell from '@/components/MainShell'
 
 const notoSerifKR = Noto_Serif_KR({
@@ -22,7 +25,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className={`${notoSerifKR.variable} font-serif bg-cream min-h-screen flex flex-col`}>
-        <MainShell>
+        <MainShell
+          header={<Header />}
+          footer={<Footer />}
+          floating={<FloatingKakao />}
+        >
           {children}
         </MainShell>
       </body>
