@@ -11,14 +11,19 @@ export default function AuthButtons() {
   const router = useRouter()
 
   useEffect(() => {
-    const supabase = createClient()
-    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+    let subscription: { unsubscribe: () => void } | null = null
+    try {
+      const supabase = createClient()
+      supabase.auth.getUser().then(({ data }) => setUser(data.user))
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null)
-    })
-
-    return () => subscription.unsubscribe()
+      const { data } = supabase.auth.onAuthStateChange((_, session) => {
+        setUser(session?.user ?? null)
+      })
+      subscription = data.subscription
+    } catch {
+      // Supabase not configured or unavailable
+    }
+    return () => { subscription?.unsubscribe() }
   }, [])
 
   async function handleLogout() {
