@@ -8,6 +8,14 @@ const CATEGORY_EMOJI: Record<string, string> = {
   'Gamer & E-Sports Star': '🎮', 'Business Leader': '💼', Other: '✨',
 }
 
+const EXPIRY_OPTIONS = [
+  { label: '15분', value: 15 },
+  { label: '1시간', value: 60 },
+  { label: '3시간', value: 180 },
+  { label: '24시간', value: 1440 },
+  { label: '36시간', value: 2160 },
+]
+
 function timeAgo(d: string) {
   const s = Math.floor((Date.now() - new Date(d).getTime()) / 1000)
   if (s < 60) return `${s}초 전`
@@ -31,6 +39,29 @@ export default function SpotsPage() {
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
   const [actionId, setActionId] = useState<string | null>(null)
+  const [expiryMinutes, setExpiryMinutes] = useState<number>(15)
+  const [expiryLoading, setExpiryLoading] = useState(false)
+  const [expirySaved, setExpirySaved] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/admin/settings')
+      .then((r) => r.json())
+      .then((d) => setExpiryMinutes(d.value ?? 15))
+  }, [])
+
+  async function saveExpiry(value: number) {
+    setExpiryLoading(true)
+    setExpirySaved(false)
+    await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value }),
+    })
+    setExpiryMinutes(value)
+    setExpiryLoading(false)
+    setExpirySaved(true)
+    setTimeout(() => setExpirySaved(false), 2000)
+  }
 
   const load = useCallback(() => {
     setLoading(true)
@@ -72,6 +103,35 @@ export default function SpotsPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Spots 관리</h1>
         <p className="text-gray-400 text-sm mt-1">전체 {total.toLocaleString()}개</p>
+      </div>
+
+      {/* 기본 노출 시간 설정 */}
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 mb-6">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <p className="text-sm font-semibold text-white">기본 노출 시간</p>
+            <p className="text-xs text-gray-500 mt-0.5">새 스팟 등록 시 기본으로 적용되는 만료 시간</p>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            {EXPIRY_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => saveExpiry(opt.value)}
+                disabled={expiryLoading}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all disabled:opacity-50 ${
+                  expiryMinutes === opt.value
+                    ? 'bg-pink-600 text-white shadow-lg shadow-pink-900/40'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white border border-gray-700'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+            {expirySaved && (
+              <span className="text-green-400 text-xs font-medium">✓ 저장됨</span>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* 필터 & 검색 */}
