@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:binaries.sonarsource.com)",
+      "WebFetch(domain:www.sonarsource.com)",
+      "WebFetch(domain:docs.sonarsource.com)",
+      "Read(//c/Users/doimo/AppData/Local/Temp/claude/c------my-homepage/537a2118-3c2b-4c8b-abed-cbf2638ca579/tasks/**)"
+    ]
+  }
+}
